@@ -101,11 +101,11 @@ echo -e "Disk_Model\t\t Disk_Serial\t Disk_Capacity\t Disk_Form_Factor\t"
 
 for ((index=0; index<=$[$length-1]; index++))
 do
-   disk_model=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep -E 'Device Model|Product' | cut -d ':' -f 2`)
-   disk_serial=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep -E 'Serial Number|Serial number' | cut -d ':' -f 2`)
-   disk_capacity=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep 'User Capacity' | cut -d ':' -f 2 |cut -d '[' -f 2|cut -d ']' -f 1`)
-   disk_form=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep 'Form Factor' | cut -d ':' -f 2`)
-   echo -e "$disk_model\t $disk_serial\t $disk_capacity\t $disk_form\t"
+   disk_model[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep -E 'Device Model|Product' | cut -d ':' -f 2`)
+   disk_serial[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep -E 'Serial Number|Serial number' | cut -d ':' -f 2`)
+   disk_capacity[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep 'User Capacity' | cut -d ':' -f 2 |cut -d '[' -f 2|cut -d ']' -f 1`)
+   disk_form[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep 'Form Factor' | cut -d ':' -f 2`)
+   echo -e "${disk_model[$index]}\t ${disk_serial[$index]}\t ${disk_capacity[$index]}\t ${disk_form[$index]}\t"
 
 done
 
