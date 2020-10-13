@@ -41,6 +41,7 @@ echo `uname -a`
 
 rm -r $CPUPATH
 
+echo "----------Memory----------"
 MEMPATH='./3-mem'
 mkdir -p $MEMPATH
 dmidecode -t memory > $MEMPATH/ori_dmimem.log
@@ -68,6 +69,7 @@ done < $MEMPATH/new_dmimem.log
 rm -r $MEMPATH
 NICPATH='./4-nic'
 
+echo "----------NIC----------"
 mkdir -p $NICPATH
 lshw -c network -numeric -businfo >> $NICPATH/lshw.log
 eth=`grep "pci" -i $NICPATH/lshw.log |awk '{print $2}'`
@@ -90,6 +92,7 @@ done
 
 rm -r $NICPATH
   
+echo "----------Disk----------"
 device_paths=(`smartctl --scan-open | grep "bus"| awk '{print $1}'`)
 device_types=(`smartctl --scan-open | grep "bus" | awk '{print $3}'`)
 length=${#device_paths[@]}
