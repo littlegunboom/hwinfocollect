@@ -67,9 +67,9 @@ while read -r line; do
 done < $MEMPATH/new_dmimem.log
 
 rm -r $MEMPATH
-NICPATH='./4-nic'
 
 echo "----------NIC----------"
+NICPATH='./4-nic'
 mkdir -p $NICPATH
 lshw -c network -numeric -businfo >> $NICPATH/lshw.log
 eth=`grep "pci" -i $NICPATH/lshw.log |awk '{print $2}'`
@@ -86,7 +86,7 @@ do
 		else
 			sriov="NO"
 		fi
-		echo "Interface:$nic, $bus, MSI-X:$msi, Support SRIOV:$sriov, PCI_ID:$pciid, Model:$des" >>${NICPATH}/sysinfo.log
+		echo "Interface:$nic, $bus, MSI-X:$msi, Support SRIOV:$sriov, PCI_ID:$pciid, Model:$des" 
 #		ethtool -i $nic >>${NICPATH}/sysinfo.log
 done
 
