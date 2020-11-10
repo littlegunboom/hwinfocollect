@@ -138,7 +138,7 @@ do
 	echo -e "{\"Size${i}\":\"${disk_allsize[$i]}\",\"Counts${i}\":\"${disk_counts[$i]}\"},\c" >> /root/hw_light.json
 	i=$((i+1));
 done < /tmp/disk_size_Counts
-sed s'/.$//' -i /root/hw_light.json
+sed '$ s/.$//' /root/hw_light.json
 echo "]," >> /root/hw_light.json
 
-rm /tmp/disk_size
+rm /tmp/disk_size /tmp/disk_size_Counts
