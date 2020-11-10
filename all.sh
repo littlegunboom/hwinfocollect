@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -f /root/hw_light.json ];then
-rm /root/hw_light.json
+	rm /root/hw_light.json
 fi
 
 SYSTEMPATH='./1-system_bios_ipmi'
