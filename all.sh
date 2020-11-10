@@ -10,6 +10,8 @@ echo "Manufacturer: ${system_Manufacturer}"
 echo "Product Name: ${system_Product_Name}"
 echo "Serial Number: ${system_Serial_Number}"
 
+#To_json
+echo "{\"System\":{\"Product\":\"${system_Product_Name}\",\"SN\":\"${system_Serial_Number}\"}," > /root/hw_light.json
 
 dmidecode -t bios > $SYSTEMPATH/ori_bios_ipmi.log
 bios_bmc_BIOS_Revision=$(echo `grep "BIOS Revision" $SYSTEMPATH/ori_bios_ipmi.log|cut -d ":" -f 2`)
@@ -39,6 +41,9 @@ echo "Thread Count Per Socket: ${cpu_Thread_Count}"
 echo "----------Kernel----------"
 echo `uname -a`
 
+#To_json
+echo "\"CPU\":{\"Model\":\"${cpu_Version}\",\"Counts\":\"${cpu_Num}\"}," >> /root/hw_light.json
+
 rm -r $CPUPATH
 
 echo "----------Memory----------"
@@ -55,6 +60,7 @@ echo -e "Memory_Size\t Memory_Locator\t Memory_Bank_Locator\t Memory_Type\t Memo
 
 while read -r line; do
 	mem_Size=$(echo `echo "$line" |cut -d "#" -f8|cut -d ":" -f2|cut -d ";" -f1`)
+	echo `echo "$line" |cut -d "#" -f8|cut -d ":" -f2|cut -d ";" -f1` >> $MEMPATH/mem_Size 
 	mem_Locator=$(echo `echo "$line" |cut -d "#" -f11|cut -d ":" -f2|cut -d ";" -f1`)
 	mem_Bank_Locator=$(echo `echo "$line" |cut -d "#" -f12|cut -d ":" -f2|cut -d ";" -f1`)
 	mem_Type=$(echo `echo "$line" |cut -d "#" -f13|cut -d ":" -f2|cut -d ";" -f1`)
@@ -65,6 +71,11 @@ while read -r line; do
 	mem_Configured_Clock_Speed=$(echo `echo "$line" |cut -d "#" -f21|cut -d ":" -f2|cut -d ";" -f1`)
 	echo -e "${mem_Size}\t ${mem_Locator}\t ${mem_Bank_Locator}\t ${mem_Type}\t ${mem_Speed}\t ${mem_Manufacturer}\t ${mem_Serial_Number}\t ${mem_Part_Number}\t ${mem_Configured_Clock_Speed}"
 done < $MEMPATH/new_dmimem.log
+
+#To_json
+mem_Counts=`cat $MEMPATH/mem_Size |wc -l`
+mem_AllSize=`sort $MEMPATH/mem_Size |uniq`
+echo "\"MEM\":{\"Size\":\"${mem_AllSize}\",\"Counts\":\"${mem_Counts}\"}," >> /root/hw_light.json
 
 rm -r $MEMPATH
 
@@ -110,8 +121,24 @@ do
    disk_model[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep -E 'Device Model|Product' | cut -d ':' -f 2`)
    disk_serial[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep -E 'Serial Number|Serial number' | cut -d ':' -f 2`)
    disk_capacity[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep 'User Capacity' | cut -d ':' -f 2 |cut -d '[' -f 2|cut -d ']' -f 1`)
+   echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep 'User Capacity' | cut -d ':' -f 2 |cut -d '[' -f 2|cut -d ']' -f 1` >> /tmp/disk_size
    disk_form[$index]=$(echo `sudo smartctl -i ${device_paths[$index]} -d ${device_types[$index]} 2>/dev/null | grep 'Form Factor' | cut -d ':' -f 2`)
    echo -e "${disk_model[$index]}\t ${disk_serial[$index]}\t ${disk_capacity[$index]}\t ${disk_form[$index]}\t"
 
 done
 
+#To_json
+uniq -c /tmp/disk_size > /tmp/disk_size_Counts
+echo -e "\"Disk\":[\c" >> /root/hw_light.json
+i=0
+while read line; 
+do
+	disk_allsize[$i]=$(echo `echo $line |awk '{$1="";print $0}'`);
+	disk_counts[$i]=$(echo `echo $line |awk '{print $1}'`); 
+	echo -e "{\"Size${i}\":\"${disk_allsize[$i]}\",\"Counts${i}\":\"${disk_counts[$i]}\"},\c" >> /root/hw_light.json
+	i=$((i+1));
+done < /tmp/disk_size_Counts
+sed s'/.$//' -i /root/hw_light.json
+echo "]," >> /root/hw_light.json
+
+rm /tmp/disk_size
