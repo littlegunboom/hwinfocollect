@@ -5,6 +5,7 @@ sn=`sudo dmidecode -t system |grep  "Serial Number:"| awk '{$1="";$2="";sub(/^[ 
 if [ -f /root/${sn}_cpu_linpack.log ];then
   mv /root/${sn}_cpu_linpack.log /root/${sn}_cpu_linpack.log.bak
   mv /root/${sn}_mem_mlc.log /root/${sn}_mem_mlc.log.bak
+  mv /root/${sn}_cpu_benchmark /root/${sn}_cpu_benchmark.bak
 fi  
 
 wget https://agora-devops-public-2.oss-cn-beijing.aliyuncs.com/Stress-testing/compressed_tools/linpack_2020.2.001.tar -P ~/linkpack/
