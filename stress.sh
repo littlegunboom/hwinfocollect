@@ -11,5 +11,5 @@ cd ~/intel-mlc && mkdir mlc_v3.9
 tar -zxvf mlc_v3.9.tgz -C mlc_v3.9 1>/dev/null 2>&1
 cd mlc_v3.9/Linux
 sudo modprobe msr
-sudo ./mlc > /root/${sn}_cpu_linpack.log
+sudo ./mlc > /root/${sn}_mem_mlc.log
 
