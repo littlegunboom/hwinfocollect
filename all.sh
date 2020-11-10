@@ -93,8 +93,14 @@ done
 rm -r $NICPATH
   
 echo "----------Disk----------"
-device_paths=(`smartctl --scan-open | grep "bus"| awk '{print $1}'`)
-device_types=(`smartctl --scan-open | grep "bus" | awk '{print $3}'`)
+if [[ `smartctl --scan-open | grep "bus"` == "" ]];then
+#       echo no_bus
+        device_paths=(`smartctl --scan-open | grep "SAT"| awk '{print $1}'`)
+        device_types=(`smartctl --scan-open | grep "SAT" | awk '{print $3}'`)
+else
+        device_paths=(`smartctl --scan-open | grep "bus"| awk '{print $1}'`)
+        device_types=(`smartctl --scan-open | grep "bus" | awk '{print $3}'`)
+fi
 length=${#device_paths[@]}
 
 echo -e "Disk_Model\t\t Disk_Serial\t Disk_Capacity\t Disk_Form_Factor\t"  
