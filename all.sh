@@ -77,7 +77,7 @@ for nic in $eth
 do
 #		bus=`ethtool -i $nic|grep bus-info|awk -F ":" '{print $3":"$4}'`
 		bus=`grep $nic -i $NICPATH/lshw.log |awk -F " " '{print $1}' |cut -d "@" -f 2`
-		des=`grep $nic -i $NICPATH/lshw.log |awk -F "        " '{print $3}' |cut -d '[' -f 1`
+		des=$(echo `grep $nic -i $NICPATH/lshw.log |awk '{$1=$2=$3=""; print $0}'|cut -d '[' -f 1`)
 		pciid=`grep $nic -i $NICPATH/lshw.log |cut -d '[' -f2|cut -d ']'  -f1`
 		msi=`lspci -vvv -s $bus|grep "MSI-X"|awk -F " " '{print $5}'|awk -F "=" '{print $2}'`
 		if lspci -vvv -s $bus |grep -i "IOV" >/dev/null; then
