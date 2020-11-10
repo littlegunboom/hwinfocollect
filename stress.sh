@@ -1,4 +1,6 @@
 #!/bin/bash
+export http_proxy="http://10.11.1.2:3129"
+export https_proxy="http://10.11.1.2:3129"
 sn=`sudo dmidecode -t system |grep  "Serial Number:"| awk '{$1="";$2="";sub(/^[ \t]+/,"");print $0}'`
 
 wget https://agora-devops-public-2.oss-cn-beijing.aliyuncs.com/Stress-testing/compressed_tools/linpack_2020.2.001.tar -P ~/linkpack/
@@ -11,5 +13,5 @@ cd ~/intel-mlc && mkdir mlc_v3.9
 tar -zxvf mlc_v3.9.tgz -C mlc_v3.9 1>/dev/null 2>&1
 cd mlc_v3.9/Linux
 sudo modprobe msr
-sudo ./mlc > /root/${sn}_cpu_linpack.log
+sudo ./mlc > /root/${sn}_mem_mlc.log
 
