@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ -f /root/hw_light.json ];then
+rm /root/hw_light.json
+fi
+
 SYSTEMPATH='./1-system_bios_ipmi'
 mkdir -p $SYSTEMPATH
 dmidecode -t 1 > $SYSTEMPATH/ori_system.log
@@ -142,3 +146,10 @@ sed '$ s/.$//' /root/hw_light.json
 echo "]," >> /root/hw_light.json
 
 rm /tmp/disk_size /tmp/disk_size_Counts
+
+bonding_mode=$(echo `cat /proc/net/bonding/bond0 | grep "Bonding Mode" |cut -d  ":" -f 2`)
+NIC_count=$(echo `cat /proc/net/bonding/bond0 | grep 10000| wc -l`)
+echo "\"Bonding\":{\"Mode\":\"${bonding_mode}\",\"NIC_count\":\"${NIC_count}\"}" >> /root/hw_light.json
+echo "}" >> /root/hw_light.json
+
+
