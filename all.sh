@@ -49,7 +49,7 @@ cat $MEMPATH/ori_dmimem.log |sed 's/^/#/g' |sed 's/$/;/g' > $MEMPATH/mod_dmimem_
 sed -i "s/#;//g" $MEMPATH/mod_dmimem_1.log
 cat $MEMPATH/mod_dmimem_1.log |awk -v RS= '{$1=$1}1' > $MEMPATH/mod_dmimem_2.log
 sed -i '1,2d' $MEMPATH/mod_dmimem_2.log 
-grep -v 'NO DIMM' $MEMPATH/mod_dmimem_2.log > $MEMPATH/new_dmimem.log
+grep -vE 'NO DIMM|No Module Installed' $MEMPATH/mod_dmimem_2.log > $MEMPATH/new_dmimem.log
 
 echo -e "Memory Size\t Memory Locator\t Memory Bank_Locator\t Memory Type\t Memory Speed\t Memory Manufacturer\t Memory Serial_Number\t Memory Part_Number\t Memory Configured_Clock_Speed\t"
 
