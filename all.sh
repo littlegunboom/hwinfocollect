@@ -51,7 +51,7 @@ cat $MEMPATH/mod_dmimem_1.log |awk -v RS= '{$1=$1}1' > $MEMPATH/mod_dmimem_2.log
 sed -i '1,2d' $MEMPATH/mod_dmimem_2.log 
 grep -vE 'NO DIMM|No Module Installed' $MEMPATH/mod_dmimem_2.log > $MEMPATH/new_dmimem.log
 
-echo -e "Memory Size\t Memory Locator\t Memory Bank_Locator\t Memory Type\t Memory Speed\t Memory Manufacturer\t Memory Serial_Number\t Memory Part_Number\t Memory Configured_Clock_Speed\t"
+echo -e "Memory_Size\t Memory_Locator\t Memory_Bank_Locator\t Memory_Type\t Memory_Speed\t Memory_Manufacturer\t Memory_Serial_Number\t Memory_Part_Number\t Memory_Configured_Clock_Speed\t"
 
 while read -r line; do
 	mem_Size=$(echo `echo "$line" |cut -d "#" -f8|cut -d ":" -f2|cut -d ";" -f1`)
