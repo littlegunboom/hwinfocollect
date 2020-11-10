@@ -1,4 +1,6 @@
 #!/bin/bash
+export http_proxy="http://10.11.1.2:3129"
+export https_proxy="http://10.11.1.2:3129"
 sn=`sudo dmidecode -t system |grep  "Serial Number:"| awk '{$1="";$2="";sub(/^[ \t]+/,"");print $0}'`
 
 wget https://agora-devops-public-2.oss-cn-beijing.aliyuncs.com/Stress-testing/compressed_tools/linpack_2020.2.001.tar -P ~/linkpack/
