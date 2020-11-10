@@ -63,7 +63,7 @@ while read -r line; do
 	mem_Serial_Number=$(echo `echo "$line" |cut -d "#" -f17|cut -d ":" -f2|cut -d ";" -f1`)
 	mem_Part_Number=$(echo `echo "$line" |cut -d "#" -f19|cut -d ":" -f2|cut -d ";" -f1`)
 	mem_Configured_Clock_Speed=$(echo `echo "$line" |cut -d "#" -f21|cut -d ":" -f2|cut -d ";" -f1`)
-	echo "Memory Size: ${mem_Size}, Memory Locator: ${mem_Locator}, Memory Bank_Locator: ${mem_Bank_Locator}, Memory Type: ${mem_Type}, Memory Speed: ${mem_Speed}, Memory Manufacturer: ${mem_Manufacturer}, Memory Serial_Number: ${mem_Serial_Number}, Memory Part_Number: ${mem_Part_Number}, Memory Configured_Clock_Speed: ${mem_Configured_Clock_Speed}"
+	echo "${mem_Size}\t ${mem_Locator}\t ${mem_Bank_Locator}\t ${mem_Type}\t ${mem_Speed}\t ${mem_Manufacturer}\t ${mem_Serial_Number}\t ${mem_Part_Number}\t ${mem_Configured_Clock_Speed}"
 done < $MEMPATH/new_dmimem.log
 
 rm -r $MEMPATH
