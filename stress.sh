@@ -8,10 +8,10 @@ if [ -f /root/${sn}_cpu_linpack.log ];then
   mv /root/${sn}_cpu_benchmark /root/${sn}_cpu_benchmark.bak
 fi  
 
-wget https://agora-devops-public-2.oss-cn-beijing.aliyuncs.com/Stress-testing/compressed_tools/linpack_2020.2.001.tar -O ~/linkpack/linpack_2020.2.001.tar
-cd ~/linkpack/
+wget https://agora-devops-public-2.oss-cn-beijing.aliyuncs.com/Stress-testing/compressed_tools/linpack_2020.2.001.tar -O ~/linpack/linpack_2020.2.001.tar
+cd ~/linpack/
 tar -xvf linpack_2020.2.001.tar 1>/dev/null 2>&1
-cd ~/linkpack/linkpack/
+cd ~/linpack/linpack/
 sudo ./runme_xeon64 > /root/${sn}_cpu_linpack.log
 
 wget https://agora-devops-public-2.oss-cn-beijing.aliyuncs.com/Stress-testing/compressed_tools/mlc_v3.9.tgz -P ~/intel-mlc
