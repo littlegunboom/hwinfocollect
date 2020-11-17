@@ -1,6 +1,6 @@
 #!/bin/bash
-export http_proxy="http://10.11.1.2:3129"
-export https_proxy="http://10.11.1.2:3129"
+#export http_proxy="http://10.11.1.2:3129"
+#export https_proxy="http://10.11.1.2:3129"
 sn=`sudo dmidecode -t system |grep  "Serial Number:"| awk '{$1="";$2="";sub(/^[ \t]+/,"");print $0}'`
 if [ -f /root/${sn}_cpu_linpack.log ];then
   mv /root/${sn}_cpu_linpack.log /root/${sn}_cpu_linpack.log.bak
