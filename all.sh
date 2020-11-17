@@ -2,6 +2,9 @@
 if [ -f /root/hw_light.json ];then
 	rm /root/hw_light.json
 fi
+if [ -f /root/hwinfoall ];then
+	rm /root/hwinfoall
+fi
 
 SYSTEMPATH='./1-system_bios_ipmi'
 mkdir -p $SYSTEMPATH
