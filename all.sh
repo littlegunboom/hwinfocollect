@@ -132,7 +132,7 @@ do
 done
 
 #To_json
-uniq -c /tmp/disk_size > /tmp/disk_size_Counts
+sort /tmp/disk_size |uniq -c  > /tmp/disk_size_Counts
 echo -e "\"Disk\":[\c" >> /root/hw_light.json
 i=0
 while read line; 
