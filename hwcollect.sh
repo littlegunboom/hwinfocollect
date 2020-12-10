@@ -20,7 +20,7 @@ echo "Serial Number: ${system_Serial_Number}"
 #To_json
 echo "{\"System\":{\"Product\":\"${system_Product_Name}\",\"SN\":\"${system_Serial_Number}\"}," > /root/hw_light.json
 
-dmidecode -t bios > $SYSTEMPATH/ori_bios_ipmi.log
+ipmitool mc info > $SYSTEMPATH/ori_bios_ipmi.log
 bios_bmc_BIOS_Revision=$(echo `dmidecode -s bios-version`)
 bios_bmc_Release_Date=$(echo `dmidecode -s bios-release-date`)
 bios_bmc_Firmware_Revision=$(echo `grep "Firmware Revision" $SYSTEMPATH/ori_bios_ipmi.log|cut -d ":" -f 2`)
